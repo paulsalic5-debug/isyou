@@ -72,6 +72,12 @@ h1{margin:0;font-size:clamp(40px,11vw,92px);letter-spacing:.08em;color:var(--blo
 .cr-n{font-size:clamp(18px,4.5vw,26px);margin:0;color:var(--paper)}
 .cr-l{font-size:clamp(15px,3.6vw,20px);margin:6px 0;color:var(--paper);font-style:italic}
 .cr-blink{animation:fl 3s infinite;color:#ff3b30}
+#credits::before{content:'';position:absolute;inset:0;pointer-events:none;z-index:3;background:repeating-linear-gradient(0deg,rgba(0,0,0,.35) 0 1px,transparent 1px 3px)}
+#credits::after{content:'';position:absolute;inset:0;pointer-events:none;z-index:3;background:radial-gradient(ellipse at center,transparent 35%,rgba(110,0,0,.55) 100%);animation:cflick 4s infinite}
+@keyframes cflick{0%,100%{opacity:1}50%{opacity:.75}92%{opacity:.35}}
+.cr-t{animation:glitch 2.6s infinite steps(2,end)}
+@keyframes glitch{0%,90%,100%{transform:none;text-shadow:0 0 14px rgba(192,40,31,.6)}92%{transform:translate(-4px,1px);text-shadow:3px 0 #fff,-3px 0 #1a1aff}94%{transform:translate(4px,-1px);text-shadow:-3px 0 #fff,3px 0 #0f0}96%{transform:none}}
+.cr-r{color:#b9a88a;letter-spacing:.3em}
 #credBtn{display:none;position:absolute;bottom:22px;left:50%;transform:translateX(-50%);z-index:2}
 
 #shop{position:absolute;inset:0;z-index:22;display:none;flex-direction:column;align-items:center;gap:10px;padding:16px;background:rgba(0,0,0,.93);overflow:auto}
@@ -222,7 +228,7 @@ const CONT=[
  {lv:1,x:380,n:'Küchenschublade',it:'key'},{lv:1,x:720,n:'Küchenschrank',it:'toy'},{lv:1,x:1400,n:'Fernsehschrank',it:'toy'},
  {lv:1,x:1750,n:'Sideboard',it:null},{lv:1,x:1990,n:'Badschrank',it:'key'},
  {lv:2,x:330,n:'Werkbank',it:'toy'},{lv:2,x:800,n:'Kiste',it:null},{lv:2,x:1230,n:'Werkzeugkasten',it:'key'},
- {lv:2,x:2150,n:'Regal',it:null},{lv:3,x:900,n:'Truhe',it:'key'}].map(c=>({...c,done:false}));
+ {lv:2,x:2150,n:'Regal',it:null},{lv:3,x:900,n:'Truhe',it:'key'},{lv:0,x:650,n:'Schublade',it:'batt'},{lv:1,x:1560,n:'Wohnzimmerregal',it:'batt'},{lv:2,x:1600,n:'Gerätekiste',it:'batt'},{lv:0,x:1500,n:'Schreibtisch',it:'note'},{lv:1,x:560,n:'Ablage',it:'note'},{lv:2,x:2050,n:'Aktenschrank',it:'note'}].map(c=>({...c,done:false}));
 const SPECIAL={fuse:{lv:2,x:1050},toybox:{lv:0,x:1600},door:{lv:1,x:70},tv:{lv:1,x:1400}};
 const PROPS=[
  {t:'win',lv:0,x:420},{t:'bed',lv:0,x:200,c:'#33476e'},{t:'night',lv:0,x:90},{t:'paint',lv:0,x:560},{t:'ward',lv:0,x:660},{t:'dresser',lv:0,x:440},
@@ -872,21 +878,83 @@ function catFaceBig(c,S,t){
  hp();c.strokeStyle=co;c.lineWidth=3;c.stroke();
  c.fillStyle=sk;c.strokeStyle=co;c.beginPath();c.ellipse(0,hy,62,11,0,0,7);c.fill();c.stroke();
 }
+/* ---- Jumpscare: Nahaufnahme nur des Gesichts, jedes Monster hat sein eigenes ---- */
+const FACE={
+ schleicher(c,S){c.fillStyle=S.sk;c.beginPath();c.ellipse(0,0,62,120,0,0,7);c.fill();
+  c.fillStyle='#000';c.beginPath();c.ellipse(-26,-26,8,15,0,0,7);c.ellipse(26,-26,8,15,0,0,7);c.fill();
+  c.beginPath();c.ellipse(0,52,34,46,0,0,7);c.fill();c.fillStyle='#e8e6d6';
+  for(let i=0;i<7;i++){c.beginPath();c.moveTo(-30+i*10,36);c.lineTo(-25+i*10,68);c.lineTo(-20+i*10,36);c.fill()}},
+ blut(c,S){c.fillStyle=S.sk;c.beginPath();c.ellipse(0,-10,95,80,0,0,7);c.fill();
+  c.fillStyle='#000';c.beginPath();c.ellipse(0,40,62,62,0,0,7);c.fill();
+  c.fillStyle='#fff';c.beginPath();c.arc(-38,-28,10,0,7);c.arc(38,-28,10,0,7);c.fill();
+  c.fillStyle='#000';c.beginPath();c.arc(-38,-28,4,0,7);c.arc(38,-28,4,0,7);c.fill();
+  c.strokeStyle='#5a0a0a';c.lineWidth=3;for(let i=-3;i<=3;i++){c.beginPath();c.moveTo(i*16,62);c.lineTo(i*16+4,110+Math.abs(i)*8);c.stroke()}},
+ schatten(c){c.fillStyle='#000';c.beginPath();c.moveTo(0,-170);c.quadraticCurveTo(120,-120,130,170);c.lineTo(-130,170);c.quadraticCurveTo(-120,-120,0,-170);c.fill();c.strokeStyle='#3a3a44';c.lineWidth=5;c.stroke();
+  c.fillStyle='#fff';c.beginPath();c.ellipse(-30,-10,13,9,0,0,7);c.ellipse(30,-10,13,9,0,0,7);c.fill();
+  c.fillStyle='#000';c.beginPath();c.arc(-30,-10,4,0,7);c.arc(30,-10,4,0,7);c.fill();
+  c.strokeStyle='#777';c.lineWidth=3;c.beginPath();c.moveTo(-30,60);c.lineTo(30,60);c.stroke()},
+ puppe(c,S){c.fillStyle=S.sk;c.beginPath();c.ellipse(0,0,110,100,0,0,7);c.fill();
+  for(let i=0;i<14;i++){const a=i*2.4+T*.5,x=Math.cos(a)*(70+(i%3)*14),y=Math.sin(a)*(60+(i%4)*8)-10;
+   c.fillStyle='#fff';c.beginPath();c.arc(x,y,9,0,7);c.fill();c.fillStyle='#000';c.beginPath();c.arc(x+2,y,4,0,7);c.fill()}
+  c.fillStyle='#000';c.beginPath();c.ellipse(0,20,44,36,0,0,7);c.fill()},
+ hohl(c,S){c.fillStyle=S.sk;c.beginPath();c.ellipse(0,0,95,120,0,0,7);c.fill();
+  c.fillStyle='#000';c.beginPath();c.ellipse(-30,-30,11,17,0,0,7);c.ellipse(30,-30,11,17,0,0,7);c.fill();
+  c.beginPath();c.ellipse(0,50,72,36,0,0,7);c.fill();c.fillStyle='#f4f0dc';
+  for(let i=0;i<9;i++){c.beginPath();c.moveTo(-64+i*16,40);c.lineTo(-56+i*16,56);c.lineTo(-48+i*16,40);c.fill()}},
+ haenger(c,S){c.fillStyle='#050505';c.beginPath();c.ellipse(0,-20,110,120,0,0,7);c.fill();
+  c.strokeStyle='#050505';c.lineWidth=8;for(let i=-4;i<=4;i++){c.beginPath();c.moveTo(i*22,-40);c.lineTo(i*26,260);c.stroke()}
+  c.fillStyle=S.sk;c.beginPath();c.ellipse(0,0,70,95,0,0,7);c.fill();
+  c.fillStyle='#fff';c.beginPath();c.ellipse(24,-16,14,10,0,0,7);c.fill();c.fillStyle='#000';c.beginPath();c.arc(26,-16,5,0,7);c.fill();
+  c.beginPath();c.ellipse(0,44,10,14,0,0,7);c.fill()},
+ schlange(c,S){c.fillStyle=S.sk;c.beginPath();c.moveTo(0,-110);c.quadraticCurveTo(110,-60,80,60);c.lineTo(-80,60);c.quadraticCurveTo(-110,-60,0,-110);c.fill();
+  c.fillStyle='#000';c.beginPath();c.moveTo(-70,40);c.lineTo(0,130);c.lineTo(70,40);c.fill();
+  c.fillStyle='#fff';for(const s of[-1,1]){c.beginPath();c.moveTo(s*48,50);c.lineTo(s*34,96);c.lineTo(s*20,50);c.fill()}
+  c.fillStyle=S.eye||'#ffe14a';c.beginPath();c.ellipse(-36,-30,14,9,0,0,7);c.ellipse(36,-30,14,9,0,0,7);c.fill();
+  c.fillStyle='#000';c.fillRect(-38,-34,4,8);c.fillRect(34,-34,4,8)},
+ schrank(c,S){c.fillStyle=S.sk;c.beginPath();c.ellipse(0,0,100,120,0,0,7);c.fill();
+  c.strokeStyle='rgba(0,0,0,.35)';c.lineWidth=2;for(let i=-4;i<=4;i++){c.beginPath();c.moveTo(-90,i*22);c.quadraticCurveTo(0,i*22+8,90,i*22);c.stroke()}
+  c.fillStyle='#fff';c.beginPath();c.ellipse(0,-20,38,28,0,0,7);c.fill();c.fillStyle='#000';c.beginPath();c.arc(0,-20,14,0,7);c.fill();
+  c.fillStyle='#000';c.fillRect(-60,60,120,22);c.fillStyle='#fff';for(let i=0;i<8;i++)c.fillRect(-56+i*15,60,6,9)},
+ pale(c){c.fillStyle='#f6f5ef';c.beginPath();c.ellipse(0,0,80,110,0,0,7);c.fill();
+  c.fillStyle='#000';c.beginPath();c.ellipse(-30,-20,24,34,0,0,7);c.ellipse(30,-20,24,34,0,0,7);c.fill();
+  c.beginPath();c.ellipse(0,52,14,18,0,0,7);c.fill()},
+ child(c){c.fillStyle='#ecebe4';c.beginPath();c.ellipse(0,0,70,90,0,0,7);c.fill();
+  c.fillStyle='#050505';c.beginPath();c.ellipse(0,-40,96,74,0,0,7);c.fill();c.beginPath();c.moveTo(-70,-30);c.lineTo(-60,70);c.lineTo(-40,60);c.lineTo(-48,-30);c.fill();c.beginPath();c.moveTo(70,-30);c.lineTo(60,70);c.lineTo(40,60);c.lineTo(48,-30);c.fill();
+  c.fillStyle='#fff';c.beginPath();c.ellipse(40,-6,9,6,0,0,7);c.fill();c.fillStyle='#000';c.beginPath();c.arc(41,-6,3,0,7);c.fill()},
+ ghost(c){c.fillStyle='#f3f3f8';c.beginPath();c.ellipse(0,0,90,110,0,0,7);c.fill();
+  c.fillStyle='#000';c.beginPath();c.ellipse(-32,-30,14,22,0,0,7);c.ellipse(32,-30,14,22,0,0,7);c.fill();
+  c.beginPath();c.ellipse(0,40,34,62,0,0,7);c.fill()}
+};
 function drawScare(t){
- const w=scv.width,h=scv.height;sx.setTransform(1,0,0,1,0,0);sx.fillStyle=Math.random()<.25?'#4a0000':'#000';sx.fillRect(0,0,w,h);
- const S=curSkin(),jx=(Math.random()-.5)*10,jy=(Math.random()-.5)*10;
- if(S.type&&S.type!=='cat'){
-  const kk=Math.min(w,h)/330*(1+t*.12);
-  sx.save();sx.translate(w/2+jx,h*.95+jy);sx.scale(kk,kk);
-  drawMonsterCtx(sx,S,{on:true,x:0,y:0,dir:1,mv:false,mode:'scare',ph:t*8},false,true);
-  sx.restore();
- }else{
+ const w=scv.width,h=scv.height;sx.setTransform(1,0,0,1,0,0);
+ sx.fillStyle=Math.random()<.25?'#4a0000':'#000';sx.fillRect(0,0,w,h);
+ const S=curSkin();
+ if(t<.07){sx.fillStyle='#fff';sx.fillRect(0,0,w,h);return}
+ const shake=Math.max(0,1-t*.6)*16+3,jx=(Math.random()-.5)*shake,jy=(Math.random()-.5)*shake;
+ if(S.id==='cat'||!FACE[S.id]){
   const k=Math.min(w,h)/380*(1+t*.12);
-  sx.save();sx.translate(w/2+jx,h*.5+jy);sx.scale(k,k);
-  catFaceBig(sx,S,t);
-  sx.restore();
+  sx.save();sx.translate(w/2+jx,h*.5+jy);sx.scale(k,k);catFaceBig(sx,S,t);sx.restore();
+ }else{
+  const k=Math.min(w,h)/270*(1+Math.min(t,1.6)*.2+(t>1.4?.3:0));
+  sx.save();sx.translate(w/2+jx,h*.48+jy);sx.scale(k,k);FACE[S.id](sx,S,t);sx.restore();
  }
 }
+/* ---- Schreie: jedes Monster hat einen eigenen ---- */
+const SCREAM={
+ schleicher(){noise(2.2,.35,700,1.2,'bandpass',300);tone(620,2.2,'sawtooth',.16,260);tone(640,2.1,'sine',.1,270,.05)},
+ blut(){for(let i=0;i<8;i++)tone(90+rnd(0,60),.25,'sawtooth',.14,40,i*.13);noise(1.6,.3,400,3,'bandpass',180)},
+ schatten(){tone(60,2.4,'sawtooth',.4,28);noise(2,.3,220,1,'lowpass',90);tone(1400,1.5,'sine',.05,600,.2)},
+ puppe(){[0,.11,.23,.37,.48].forEach((d,i)=>tone(300+i*70,1.6,'sawtooth',.09,520+i*40,d));noise(1.5,.2,1200,1,'bandpass',600)},
+ hohl(){tone(2600,1.6,'sine',.12,1900);tone(2620,1.6,'sine',.07,1950,.25);tone(2300,1.4,'sine',.05,1500,.5);noise(1.2,.08,4000,4,'highpass')},
+ haenger(){tone(180,1.4,'sine',.12,170);tone(540,.9,'square',.05,520,.05);noise(.5,.5,2800,2,'bandpass',1200,1.2);tone(1300,1.1,'sawtooth',.12,400,1.4)},
+ schlange(){noise(2.5,.45,4500,1,'highpass',1800);noise(1,.2,2200,6,'bandpass',900,.6)},
+ schrank(){noise(.6,.5,140,3,'lowpass',80);tone(80,2.2,'sawtooth',.25,50);tone(110,2,'square',.07,70,.5);noise(1.2,.1,900,6,'bandpass',300,.9)},
+ pale(){tone(900,2.2,'sine',.16,2400);tone(1350,2,'triangle',.07,2900,.1);noise(2,.08,5000,1,'highpass')},
+ child(){tone(780,1.8,'square',.08,1450);tone(1170,1.6,'square',.05,1800,.1);tone(1560,1.4,'sine',.07,2000,.2);noise(1.2,.12,2500,5,'bandpass',1800)},
+ ghost(){noise(2.6,.4,1200,6,'bandpass',500);noise(1.6,.2,2400,8,'bandpass',900,.4);tone(200,2.6,'sine',.06,140)},
+ cat(){tone(1850,1.1,'sawtooth',.18,240,.05);tone(1970,1,'square',.09,300,.08);noise(.9,.5,3000,.6,'bandpass',600)}
+};
+function scream(id){const f=SCREAM[id]||SCREAM.cat;if(AC)f()}
 function post(){
  cx.setTransform(1,0,0,1,0,0);
  if(G.power){cx.fillStyle=G.dim?'rgba(0,0,0,.26)':'rgba(255,200,120,.06)';cx.fillRect(0,0,VW,VH)}
@@ -976,9 +1044,15 @@ function winRound(){
  G.phase='win';G.timer=3.2;M.on=false;M.mode='away';big(1,'YOU WIN','');setObj('');
  [523,659,784].forEach((f,i)=>tone(f,.9,'triangle',.12,0,i*.18));
 }
+function taskUpd(){
+ if(G.phase!=='tasks')return;
+ setObj('Aufgaben: Batterien '+(G.tb||0)+'/3 · Zettel '+(G.tn||0)+'/3 · '+(G.called?'Mama angerufen ✓':'Mama anrufen'));
+ if((G.tb||0)>=3&&(G.tn||0)>=3&&G.called&&!G.tdone){G.tdone=true;G.after={t:2,fn:()=>startBlackout('keys')};say('Alle Aufgaben erledigt. Jetzt die Schlüssel.',2600)}
+}
 function afterWin(){
  big(0);const nx=G.next;spawnFar();M.mode='patrol';M.on=true;G.sub=null;
- if(nx==='fuse'){G.phase='fuse';setObj('Stelle den Strom wieder her. Der Sicherungskasten ist im Keller.')}
+ if(nx==='tasks'){G.phase='tasks';G.tb=0;G.tn=0;G.called=false;G.tdone=false;setObj('Aufgaben: Batterien 0/3 · Zettel 0/3 · Mama anrufen')}
+ else if(nx==='fuse'){G.phase='fuse';setObj('Stelle den Strom wieder her. Der Sicherungskasten ist im Keller.')}
  else{G.phase='keys';setObj('Finde die 5 Schlüssel im Dunkeln und öffne die Haustür.')}
 }
 function powerOn(){
@@ -1172,6 +1246,7 @@ function startCredits(){
  const r=$('roll');r.style.animation='none';void r.offsetWidth;r.style.animation='';
  $('credits').style.display='flex';
  [196,293.7,392].forEach((f,i)=>tone(f,4,'triangle',.08,0,i*.5));
+ setTimeout(()=>{if(G.phase==='credits'){tone(60,2.5,'sawtooth',.2,30);noise(1.6,.4,300,1,'lowpass')}},41000);
  clearTimeout(credT);credT=setTimeout(()=>{if(!(NET.on&&NET.role==='guest'))$('credBtn').style.display='block'},42000);
 }
 function hideCredits(){$('credits').style.display='none';$('credBtn').style.display='none';clearTimeout(credT)}
@@ -1194,6 +1269,7 @@ function near(){
  HIDES.forEach(h=>{if(h.lv===lv)c.push({ty:'hide',o:h,x:h.x,t:'Verstecken: '+h.n,p:2})});
  CONT.forEach(o=>{if(o.lv===lv)c.push({ty:'cont',o,x:o.x,t:o.n+' durchsuchen',p:1})});
  if(lv===2&&!G.power)c.push({ty:'fuse',x:SPECIAL.fuse.x,t:'Strom einschalten',p:3});
+ if(lv===0&&G.phase==='tasks'&&!G.called)c.push({ty:'phone',x:1800,t:'Telefon: Mama anrufen',p:2});
  if(lv===0)c.push({ty:'toybox',x:SPECIAL.toybox.x,t:G.carry>0?'Spielzeug abgeben':'Spielzeugkiste',p:2});
  if(lv===1)c.push({ty:'fdoor',x:SPECIAL.door.x,t:'Haustür ('+G.keys+'/5 Schlüssel)',p:2});
  let best=null;for(const e of c){const d=Math.abs(e.x-px);if(d<44&&(!best||d-e.p*8<best.sc)){best=e;e.sc=d-e.p*8}}
@@ -1224,6 +1300,8 @@ function finishSearch(){
  if(o.done){say('Hier ist nichts mehr.',1500);return}
  if(o.it==='toy'&&G.phase==='toys'){o.done=true;G.carry++;SND.pick();say('Spielzeug gefunden! Bring es zur Spielzeugkiste im Kinderzimmer.',2800);return}
  if(o.it==='key'&&G.phase==='keys'){o.done=true;G.keys++;SND.pick();say('Schlüssel gefunden ('+G.keys+'/5)',2200);return}
+ if(o.it==='batt'&&G.phase==='tasks'){o.done=true;G.tb=(G.tb||0)+1;SND.pick();say('Batterie gefunden ('+G.tb+'/3)',2200);taskUpd();return}
+ if(o.it==='note'&&G.phase==='tasks'){o.done=true;G.tn=(G.tn||0)+1;SND.pick();say('Zettel gefunden ('+G.tn+'/3). Eine Zahlenreihe, halb verwischt.',2600);taskUpd();return}
  if(o.it===null){o.done=true;say('Leer.',1300);return}
  say('Nur Staub und Krimskram.',1500);
 }
@@ -1235,8 +1313,11 @@ function doAction(){
  else if(n.ty==='fuse'){if(G.phase==='fuse')startSearch({fuse:1},1.8);else say('Noch nicht. Erst musst du ihn loswerden.',1800)}
  else if(n.ty==='toybox'){
   if(G.carry>0){G.toys+=G.carry;G.carry=0;SND.pick();say('Spielzeug abgegeben ('+G.toys+'/5)',2000);
-   if(G.toys>=5&&G.phase==='toys')G.after={t:1.8,fn:()=>startBlackout('keys')}}
+   if(G.toys>=5&&G.phase==='toys')G.after={t:1.8,fn:()=>startBlackout(G.diff===2?'tasks':'keys')}}
   else say(G.phase==='toys'?'Suche die Spielzeuge im ganzen Haus.':'Die Kiste ist leer.',2000)}
+ else if(n.ty==='phone'){
+  if(!G.called){G.called=true;SND.tv();say('Du wählst Mamas Nummer. Es klingelt im leeren Flur. Dann Stille. Dann ein Atmen.',3600);taskUpd()}
+ }
  else if(n.ty==='fdoor'){
   if(G.keys>=5&&G.phase==='keys')startEnd();
   else say(G.phase==='keys'?'Abgeschlossen. Dir fehlen Schlüssel ('+G.keys+'/5).':'Die Haustür ist abgeschlossen.',2200)}
@@ -1379,7 +1460,7 @@ function updMonster(dt){
 }
 function caught(){
  if(G.scare>0||G.phase==='menu'||G.phase==='end'||G.phase==='win'||G.phase==='dead'||G.phase==='black'||G.phase==='intro')return;
- G.scare=2.3;G.scareT=0;scv.style.display='block';SND.scare();M.mode='scare';
+ G.scare=2.3;G.scareT=0;scv.style.display='block';SND.scare();setTimeout(()=>scream(curSkin().id),120);M.mode='scare';
 }
 function respawn(){
  if(NET.other)Object.assign(PB,{lv:1,x:1100,y:FL[1],dir:-1,ph:0,mv:false,hide:null,trans:null,fl:false,bat:100,search:null});
