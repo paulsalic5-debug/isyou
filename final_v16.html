@@ -93,6 +93,12 @@ h1{margin:0;font-size:clamp(40px,11vw,92px);letter-spacing:.08em;color:var(--blo
 #menu h1{font-size:clamp(46px,13vw,120px);text-shadow:0 0 22px rgba(192,40,31,.7),0 0 60px rgba(120,0,0,.5)}
 #menu .sub{min-height:2.8em;color:#b9ae90;font-family:var(--digital)}
 #menu .diff{min-width:150px}
+#menu{padding:72px 16px 16px}
+.diffs{flex-direction:column;flex-wrap:nowrap;max-width:min(92vw,420px);gap:8px}
+.diff{flex:none;display:flex;flex-direction:row;align-items:center;justify-content:space-between;gap:10px;text-align:left;padding:10px 14px;width:100%}
+.diff b{margin:0;font-size:18px;white-space:nowrap}
+.diff span{font-size:12px;text-align:right;line-height:1.25}
+#menu .diff{min-width:0}
 .sk-card{align-items:center}
 .sk-info{flex:1;min-width:0}
 .sk-pv{position:relative;inset:auto;width:96px;height:128px;flex:0 0 auto;border:1px solid var(--line);background:#070606}
@@ -168,7 +174,7 @@ h1{margin:0;font-size:clamp(40px,11vw,92px);letter-spacing:.08em;color:var(--blo
   <p class="keys">Handy quer halten, Kopfhörer auf. Tastatur: A/D laufen, W/S Treppe oder Leiter, E Aktion, F Taschenlampe.</p>
  </div>
  <div id="credits"><div id="roll"><h2 class="cr-t">I SEE YOU</h2><p class="cr-n">Von Elak1277gamepro (Elias)</p><p class="cr-l" id="credCoins"></p><p class="cr-l">Mama geht einkaufen.</p><p class="cr-r">Konzept &amp; Programmierung</p><p class="cr-n">Ein Haus aus den 1960ern</p><p class="cr-r">Musik &amp; Klang</p><p class="cr-n">Alles live im Browser synthetisiert</p><p class="cr-r">Monster-Design</p><p class="cr-n">Die Katze mit dem breiten Grinsen</p><p class="cr-r">Mit Dank an</p><p class="cr-n">Alle, die das Licht wieder angemacht haben</p><p class="cr-l">&nbsp;</p><p class="cr-l">Mama ist zurück.</p><p class="cr-l">Vielleicht.</p><p class="cr-l">&nbsp;</p><p class="cr-t cr-blink">Er sieht dich immer noch.</p><p class="cr-l">&nbsp;</p><p class="cr-l">&nbsp;</p><p class="cr-l">&nbsp;</p></div><button class="go" id="credBtn" type="button">NOCHMAL</button></div><div id="login"><h2 class="sh-t" id="lgT">ANMELDUNG</h2><p class="sub" id="loginMsg"></p><div class="seg"><button type="button" id="segIn" class="on">ANMELDEN</button><button type="button" id="segUp">NEUES KONTO</button></div><form id="lgForm" class="lgform" autocomplete="on"><input id="lName" placeholder="Dein Name (max. 16 Zeichen)" maxlength="16" autocomplete="nickname" style="display:none"><input id="lMail" type="email" placeholder="E-Mail" autocomplete="email" inputmode="email"><input id="lPw" type="password" placeholder="Passwort (mind. 6 Zeichen)" autocomplete="current-password"><button class="go" id="btnGo" type="submit">ANMELDEN</button></form><button class="link" id="btnOffline" type="button" style="display:none">OHNE KONTO (nur lokal)</button></div>
-<div id="acct"><h2 class="sh-t">KONTO</h2><div id="acctBody"></div><button class="sk-buy" id="btnLogout" type="button">ABMELDEN</button><button class="go" id="acctBack" type="button">ZURÜCK</button></div><div id="board"><h2 class="sh-t">BESTENLISTE</h2><div class="tabs"><button class="sk-buy" data-tab="time" type="button">SCHNELLSTE</button><button class="sk-buy" data-tab="runs" type="button">AM ÖFTESTEN</button></div><div id="boardList"></div><button class="go" id="boardBack" type="button">ZURÜCK</button></div><div id="shop"><h2 class="sh-t">SHOP</h2><p class="sh-c" id="shopCoins"></p><div id="shopList"></div><button class="go" id="shopBack" type="button">ZURÜCK</button><p class="soon">MORE COMING SOON</p></div><div id="mp"><h2 class="sh-t">MEHRSPIELER</h2><p class="sub" id="mpMsg">Zu zweit auf zwei Geräten. Jeder mit eigenem Konto.</p><p class="sub" id="mpCodeBox"></p><button class="go" id="mpCreate" type="button">LOBBY ERSTELLEN</button><div id="mpJoinBox"><input id="mpIn" maxlength="4" placeholder="CODE EINGEBEN" autocomplete="off"><button class="go" id="mpJoin" type="button">LOBBY BEITRETEN</button></div><p class="sub" id="mpPeople"></p><button class="go" id="mpStart" type="button" style="display:none">SPIEL STARTEN</button><button class="link" id="mpBack" type="button">ZURÜCK</button></div><div id="pause"><h2 class="sh-t">PAUSE</h2><p id="pauseS"></p><button class="go" id="pauseResume" type="button">WEITER</button><button class="go" id="pauseMenu" type="button">HAUPTMENÜ</button></div><div id="over"><h2 id="overT"></h2><p id="overS"></p><button class="go" id="again" type="button">NOCHMAL</button></div>
+<div id="acct"><h2 class="sh-t">KONTO</h2><div id="acctBody"></div><button class="sk-buy" id="btnLogout" type="button">ABMELDEN</button><button class="go" id="acctBack" type="button">ZURÜCK</button></div><div id="board"><h2 class="sh-t">BESTENLISTE</h2><div class="tabs"><button class="sk-buy" data-tab="time" type="button">SCHNELLSTE</button><button class="sk-buy" data-tab="runs" type="button">AM ÖFTESTEN</button></div><div id="boardList"></div><button class="go" id="boardBack" type="button">ZURÜCK</button></div><div id="shop"><h2 class="sh-t">SHOP</h2><p class="sh-c" id="shopCoins"></p><div id="shopList"></div><button class="go" id="shopBack" type="button">ZURÜCK</button><p class="soon">MORE COMING SOON</p></div><div id="mp"><h2 class="sh-t">MEHRSPIELER</h2><p class="sub" id="mpMsg">Zu zweit auf zwei Geräten. Jeder mit eigenem Konto.</p><p class="sub" id="mpCodeBox"></p><button class="go" id="mpCreate" type="button">LOBBY ERSTELLEN</button><div id="mpJoinBox"><input id="mpIn" maxlength="4" placeholder="CODE EINGEBEN" autocomplete="off"><button class="go" id="mpJoin" type="button">LOBBY BEITRETEN</button></div><p class="sub" id="mpPeople"></p><button class="go" id="mpStart" type="button" style="display:none">SPIEL STARTEN</button><button class="link" id="mpBack" type="button">ZURÜCK</button></div><div id="pause"><h2 class="sh-t">PAUSE</h2><p id="pauseS"></p><button class="go" id="pauseResume" type="button">WEITER</button><button class="go" id="pauseMenu" type="button">HAUPTMENÜ</button></div><div id="over"><h2 id="overT"></h2><p id="overS"></p><button class="go" id="retry" type="button" style="display:none">NOCHMAL (VON VORN)</button><button class="go" id="again" type="button">HAUPTMENÜ</button></div>
 </div>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
@@ -886,7 +892,7 @@ let sayT=0;
 function say(t,ms){NU.sid++;NU.s={id:NU.sid,t,ms:ms||2500};const e=$('say');e.textContent=t;e.classList.add('on');clearTimeout(sayT);sayT=setTimeout(()=>e.classList.remove('on'),ms||2500)}
 function big(on,a,b){NU.b=[on?1:0,a||'',b||''];$('big1').textContent=a||'';$('big2').textContent=b||'';$('big1').classList.toggle('on',!!on&&!!a);$('big2').classList.toggle('on',!!on&&!!b)}
 function setObj(t){NU.o=t||'';$('obj').textContent=t}
-function showOver(t,s,btn,col){NU.ovid++;NU.ov={id:NU.ovid,t,s:s||'',col:col||''};$('overT').textContent=t;$('overT').style.color=col||'#c0281f';$('overS').textContent=s||'';$('again').style.display=btn?'block':'none';$('over').style.display='flex'}
+function showOver(t,s,btn,col){NU.ovid++;NU.ov={id:NU.ovid,t,s:s||'',col:col||''};$('overT').textContent=t;$('overT').style.color=col||'#c0281f';$('overS').textContent=s||'';$('again').style.display=btn?'block':'none';$('again').textContent=NET.on?'NOCHMAL':'HAUPTMENÜ';$('retry').style.display=(btn&&!NET.on)?'block':'none';$('over').style.display='flex'}
 function hideOver(){NU.ov=null;$('over').style.display='none'}
 function doorBetween(lv,a,b){const lo=Math.min(a,b),hi=Math.max(a,b);return DOORS.find(d=>d.lv===lv&&!d.open&&d.x>lo&&d.x<hi)}
 function blocked(lv,x0,x1){return DOORS.find(d=>d.lv===lv&&!d.open&&((x0<d.x&&x1>=d.x-8)||(x0>d.x&&x1<=d.x+8)))}
@@ -1311,7 +1317,7 @@ function updMonster(dt){
  if(roam&&!P.hide&&!P.trans&&m.lv===P.lv&&!m.cl&&Math.abs(P.x-m.x)<28)caught();
 }
 function caught(){
- if(G.scare>0||G.phase==='menu'||G.phase==='end'||G.phase==='win'||G.phase==='black'||G.phase==='intro')return;
+ if(G.scare>0||G.phase==='menu'||G.phase==='end'||G.phase==='win'||G.phase==='dead'||G.phase==='black'||G.phase==='intro')return;
  G.scare=2.3;G.scareT=0;scv.style.display='block';SND.scare();M.mode='scare';
 }
 function respawn(){
@@ -1355,9 +1361,10 @@ function update(dt){
  if(NET.on&&NET.role==='guest'){guestUpdate(dt);return}
  if(G.scare>0){
   G.scare-=dt;G.scareT+=dt;drawScare(G.scareT);
-  if(G.scare<=0){scv.style.display='none';showOver('GEFUNDEN','Versuch es noch einmal.',false);G.after={t:1.8,fn:respawn}}
+  if(G.scare<=0){scv.style.display='none';if(NET.on){showOver('GEFUNDEN','Versuch es noch einmal.',false);G.after={t:1.8,fn:respawn}}else{G.phase='dead';showOver('GEFUNDEN','Das Monster hat dich erwischt.',true)}}
   return;
  }
+ if(G.phase==='dead')return;
  if(G.after){G.after.t-=dt;if(G.after.t<=0){const f=G.after.fn;G.after=null;f()}}
  DOORS.forEach(d=>{d.a+=((d.open?1:0)-d.a)*Math.min(1,dt*8)});
  switch(G.phase){
@@ -1657,6 +1664,7 @@ addEventListener('keydown',e=>{
  if(document.activeElement&&/INPUT|TEXTAREA/.test(document.activeElement.tagName))return;
  if(e.key==='Escape'||e.key==='p'||e.key==='P'){if($('pause').style.display==='flex')pauseClose();else pauseOpen()}
 });
+$('retry').addEventListener('click',()=>{hideOver();startGame()});
 $('credBtn').addEventListener('click',()=>{hideCredits();$('again').click()});
 $('menu').addEventListener('pointerdown',()=>{audioInit();setMute(muted);setScore(1)},{once:true});
 addEventListener('resize',resize);addEventListener('orientationchange',()=>setTimeout(resize,200));
