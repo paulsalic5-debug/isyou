@@ -138,7 +138,7 @@ h1{margin:0;font-size:clamp(40px,11vw,92px);letter-spacing:.08em;color:var(--blo
  <canvas id="sc"></canvas>
  <div id="hud">
   <div id="obj"></div>
-  <div id="stats"><span id="stT">SPIELZEUG 0/5</span><span id="stK">SCHLÜSSEL 0/5</span><button id="pauseBtn" type="button">PAUSE</button><button id="mute" type="button">TON AN</button></div>
+  <div id="stats"><span id="stT" style="display:none">KUSCHELTIERE 0/5</span><span id="stK" style="display:none">SCHLÜSSEL 0/5</span><button id="pauseBtn" type="button">PAUSE</button><button id="mute" type="button">TON AN</button></div>
   <div id="batt"><i id="battI"></i></div>
   <div id="timer"></div>
   <div id="big1" class="big"></div>
@@ -495,14 +495,17 @@ function drawMama(){
 /* ---------- Skins, Speicher, Shop-Daten ---------- */
 const SKINS=[
  {id:'cat',name:'Die Katze',desc:'Das Original. Breites Grinsen, dünne Beine, kein Mitleid.',price:0,type:'cat',sk:'#f1efe4',co:'#0d0b10',red:'#c4161c',eye:'#ffffff',k:1},
- {id:'schleicher',name:'Der Langhals',price:40,type:'tall',desc:'Viel zu lang, viel zu dünn. Er beugt sich über dich, wenn du nicht hinsiehst.',sk:'#d9d3c0',co:'#0b0b0d',red:'#4a0c0c',eye:'#ff4d4d',k:1.5},
- {id:'blut',name:'Der Kriecher',price:80,type:'crawler',desc:'Kriecht auf allen Vieren, den Kopf verdreht. Sein Maul hängt bis zur Brust.',sk:'#c9b9a8',co:'#120a08',red:'#5a0a0a',eye:'#ff3b1f',k:1.1},
- {id:'schatten',name:'Der Schattenmann',price:120,type:'shadow',desc:'Hat keine Ränder. Nur ein Umhang aus Dunkelheit und zwei rote Augen.',sk:'#16151a',co:'#050506',red:'#1a0000',eye:'#ff1212',k:1.55},
- {id:'puppe',name:'Das Knäuel',price:180,type:'blob',desc:'Ein zuckendes Gewirr aus Armen mit Augen und einem Maul in der Mitte. Es wird immer mehr.',sk:'#d8d0c8',co:'#0a0808',red:'#3a0606',eye:'#ffd24a',k:1.1},
- {id:'hohl',name:'Der Hohle',price:250,type:'cat',desc:'Kein Gesicht. Nur ein Grinsen und zwei Augen, die dich nicht loslassen.',sk:'#cfcfc6',co:'#050505',red:'#2a0000',eye:'#ffe9a0',k:1.4,hollow:1},
-{id:'haenger',name:'Die Hängende',price:300,type:'hanger',desc:'Hängt an einem Seil über dir. Ihr Haar fällt bis zum Boden und sie summt dazu.',sk:'#cfd4cc',co:'#07070a',red:'#2a0808',eye:'#b8ffe0',k:1.2},
-{id:'schlange',name:'Der Schlinger',price:400,type:'serpent',desc:'Lang wie ein Tunnel. Er schiebt sich um die Ecke, bevor du ihn siehst.',sk:'#8fa37f',co:'#0b1009',red:'#3a1a00',eye:'#ffe14a',k:1.1},
-{id:'schrank',name:'Das Ding im Schrank',price:500,type:'mass',desc:'Es war schon immer da. Mit Holzarmen, einem Auge und einem Maul in der Brust.',sk:'#5a4636',co:'#0a0706',red:'#2a1408',eye:'#ff2a2a',k:1.1}
+ {id:'schleicher',name:'Der Langhals',price:40,type:'tall',desc:'Viel zu lang, viel zu dünn. Er beugt sich über dich, wenn du nicht hinsiehst. Fähigkeit: Sieht viel weiter als die anderen.',sk:'#d9d3c0',co:'#0b0b0d',red:'#4a0c0c',eye:'#ff4d4d',k:1.5},
+ {id:'blut',name:'Der Kriecher',price:80,type:'crawler',desc:'Kriecht auf allen Vieren, den Kopf verdreht. Sein Maul hängt bis zur Brust. Fähigkeit: Kriecht schneller über den Boden. Deine Taschenlampe bremst ihn.',sk:'#c9b9a8',co:'#120a08',red:'#5a0a0a',eye:'#ff3b1f',k:1.1},
+ {id:'schatten',name:'Der Schattenmann',price:120,type:'shadow',desc:'Hat keine Ränder. Nur ein Umhang aus Dunkelheit und zwei rote Augen. Fähigkeit: Verschwindet kurz und taucht hinter dir wieder auf.',sk:'#16151a',co:'#050506',red:'#1a0000',eye:'#ff1212',k:1.55},
+ {id:'puppe',name:'Das Knäuel',price:180,type:'blob',desc:'Ein zuckendes Gewirr aus Armen mit Augen und einem Maul in der Mitte. Es wird immer mehr. Fähigkeit: Hört jeden Schritt, auch in der Ferne.',sk:'#d8d0c8',co:'#0a0808',red:'#3a0606',eye:'#ffd24a',k:1.1},
+ {id:'hohl',name:'Der Hohle',price:250,type:'cat',desc:'Kein Gesicht. Nur ein Grinsen und zwei Augen, die dich nicht loslassen. Fähigkeit: Findet dein Versteck schneller als alle anderen.',sk:'#cfcfc6',co:'#050505',red:'#2a0000',eye:'#ffe9a0',k:1.4,hollow:1},
+{id:'haenger',name:'Die Hängende',price:300,type:'hanger',desc:'Hängt an einem Seil über dir. Ihr Haar fällt bis zum Boden und sie summt dazu. Fähigkeit: Ihr Summen lässt das Licht flackern, wenn sie nah ist.',sk:'#cfd4cc',co:'#07070a',red:'#2a0808',eye:'#b8ffe0',k:1.2},
+{id:'schlange',name:'Der Schlinger',price:400,type:'serpent',desc:'Lang wie ein Tunnel. Er schiebt sich um die Ecke, bevor du ihn siehst. Fähigkeit: Schiebt sich schnell um die Ecke.',sk:'#8fa37f',co:'#0b1009',red:'#3a1a00',eye:'#ffe14a',k:1.1},
+{id:'schrank',name:'Das Ding im Schrank',price:500,type:'mass',desc:'Es war schon immer da. Mit Holzarmen, einem Auge und einem Maul in der Brust. Fähigkeit: Durchsucht Schränke besonders genau.',sk:'#5a4636',co:'#0a0706',red:'#2a1408',eye:'#ff2a2a',k:1.1},
+{id:'pale',name:'Die Weiße Puppe',price:550,type:'pale',desc:'Weiß wie Kalk, dünn wie ein Besenstiel. Zwei schwarze Löcher statt Augen. Fähigkeit: Im Licht ist sie langsam, im Dunkeln rennt sie.',sk:'#f6f5ef',co:'#2a2a2a',red:'#ffffff',eye:'#000000',k:1.25},
+{id:'child',name:'Das Kind im Flur',price:650,type:'child',desc:'Ein kleines weißes Kleid, schwarze Haare über dem Gesicht. Fähigkeit: Wird schneller, wenn du still stehst.',sk:'#ecebe4',co:'#101010',red:'#ffffff',eye:'#000000',k:0.85},
+{id:'ghost',name:'Der Flüsterer',price:800,type:'ghost',desc:'Ein weißes Laken ohne Beine, mit schwarzem Mund. Fähigkeit: Sieht dich auch in der Etage darüber und darunter.',sk:'#f3f3f8',co:'#202028',red:'#ffffff',eye:'#000000',k:1.2}
 ];
 function loadSave(){try{const d=JSON.parse(localStorage.getItem('isy_save')||'null');if(d&&typeof d.coins==='number')return d}catch(e){}return {coins:0,owned:['cat'],skin:'cat'}}
 let SAVE=loadSave();
@@ -662,7 +665,42 @@ function drawBlob(c,S,m,dark){
  c.fill();
  c.fillStyle='#000';for(const p of monGlowLocal(S,m)){c.beginPath();c.arc(p[0],p[1],4,0,7);c.fill()}
 }
-const OTHER={tall:drawTall,shadow:drawShadow,crawler:drawCrawler,blob:drawBlob,hanger:drawHanger,serpent:drawSerpent,mass:drawMass};
+function drawPale(c,S,m,dark){
+ const b=monBob(m),sw=m.mv?Math.sin(m.ph):Math.sin(T*1.1)*.05;
+ const wh=dark?'#7a7a7a':'#f6f5ef',ln=dark?'#050505':'#2a2a2a';
+ c.lineCap='round';c.lineJoin='round';c.fillStyle=wh;c.strokeStyle=ln;c.lineWidth=2.5;
+ c.beginPath();c.moveTo(-8,-120+b);c.lineTo(-14+sw*6,-10);c.lineTo(-4,0);c.lineTo(4,0);c.lineTo(14-sw*6,-10);c.lineTo(8,-120+b);c.closePath();c.fill();c.stroke();
+ c.beginPath();c.ellipse(0,-150+b,16,20,0,0,7);c.fill();c.stroke();
+ c.fillStyle=ln;c.beginPath();c.ellipse(-6,-154+b,4,6,0,0,7);c.ellipse(6,-154+b,4,6,0,0,7);c.fill();
+ c.beginPath();c.ellipse(0,-136+b,5,3,0,0,7);c.fill();
+ c.strokeStyle=ln;c.lineWidth=3;c.beginPath();c.moveTo(-8,-112+b);c.lineTo(-30,-70+b+sw*4);c.lineTo(-22-sw*4,-36);c.moveTo(8,-112+b);c.lineTo(30,-70+b-sw*4);c.lineTo(22+sw*4,-36);c.stroke();
+}
+function drawChild(c,S,m,dark){
+ const b=monBob(m)*.6,sw=m.mv?Math.sin(m.ph):0;
+ const wh=dark?'#6a6a6a':'#ecebe4',ln=dark?'#040404':'#101010';
+ c.lineCap='round';c.lineJoin='round';c.fillStyle=wh;c.strokeStyle=ln;c.lineWidth=2.5;
+ c.beginPath();c.moveTo(-10,-70+b);c.lineTo(-16,-8);c.lineTo(16,-8);c.lineTo(10,-70+b);c.closePath();c.fill();c.stroke();
+ c.save();c.translate(0,-88+b);c.rotate(.25+sw*.05);
+ c.fillStyle=wh;c.beginPath();c.ellipse(0,0,13,15,0,0,7);c.fill();c.stroke();
+ c.fillStyle=ln;c.beginPath();c.ellipse(0,-4,15,15,0,Math.PI,2*Math.PI);c.fill();
+ c.beginPath();c.moveTo(-14,-2);c.lineTo(-18,30+sw*3);c.lineTo(-8,32);c.lineTo(-10,-2);c.closePath();c.fill();
+ c.beginPath();c.moveTo(14,-2);c.lineTo(18,30-sw*3);c.lineTo(8,32);c.lineTo(10,-2);c.closePath();c.fill();
+ c.restore();
+ c.strokeStyle=ln;c.lineWidth=3;c.beginPath();c.moveTo(-10,-64+b);c.lineTo(-18+sw*3,-30);c.lineTo(-16,-14);c.moveTo(10,-64+b);c.lineTo(18-sw*3,-30);c.lineTo(16,-14);c.stroke();
+}
+function drawGhost(c,S,m,dark){
+ const t=T*2.2,bob=Math.sin(T*1.6)*6;
+ const wh=dark?'#6c6c70':'#f3f3f8',ln=dark?'#040404':'#202028';
+ c.lineCap='round';c.lineJoin='round';c.fillStyle=wh;c.strokeStyle=ln;c.lineWidth=2.5;
+ c.beginPath();c.moveTo(-16,-150+bob);c.quadraticCurveTo(-30,-80+bob,-22,-10);
+ for(let i=0;i<=4;i++){c.lineTo(-22+i*11,-10+(i%2?16:0)+Math.sin(t+i)*5)}
+ c.quadraticCurveTo(30,-80+bob,16,-150+bob);c.closePath();c.fill();c.stroke();
+ c.beginPath();c.ellipse(0,-168+bob,15,18,0,0,7);c.fill();c.stroke();
+ c.fillStyle=ln;c.beginPath();c.ellipse(-6,-172+bob,4,7,0,0,7);c.ellipse(6,-172+bob,4,7,0,0,7);c.fill();
+ c.beginPath();c.ellipse(0,-152+bob,6,8,0,0,7);c.fill();
+ c.strokeStyle=ln;c.lineWidth=3;c.beginPath();c.moveTo(-14,-130+bob);c.lineTo(-44,-96+bob+Math.sin(t)*4);c.moveTo(14,-130+bob);c.lineTo(44,-96+bob+Math.sin(t+1)*4);c.stroke();
+}
+const OTHER={pale:drawPale,child:drawChild,ghost:drawGhost,tall:drawTall,shadow:drawShadow,crawler:drawCrawler,blob:drawBlob,hanger:drawHanger,serpent:drawSerpent,mass:drawMass};
 /* ---------- Drei neue Kreaturen ---------- */
 function drawHanger(c,S,m,dark){
  const b=monBob(m),sway=Math.sin(T*1.1)*5+(m.mv?Math.sin(m.ph)*3:0);
@@ -742,7 +780,7 @@ function drawTall(c,S,m,dark){
  c.moveTo(-4,-96+b);c.lineTo(-6+sw*10,-46);c.lineTo(-4+sw*14,0);
  c.moveTo(4,-96+b);c.lineTo(6-sw*10,-46);c.lineTo(4-sw*14,0);c.stroke();
  c.fillStyle=co;c.beginPath();c.moveTo(-12,-150+b);c.lineTo(-9,-96+b);c.lineTo(9,-96+b);c.lineTo(12,-150+b);c.closePath();c.fill();
- c.strokeStyle=co;c.lineWidth=5;c.beginPath();c.moveTo(0,-148+b);c.quadraticCurveTo(8+sw*3,-180+b,6+sw*4,-200+b);c.stroke();
+ c.strokeStyle=co;c.lineWidth=5;c.beginPath();c.moveTo(0,-148+b);c.quadraticCurveTo(8+sw*2,-150+b,12+sw*3,-146+b);c.stroke();
  c.lineWidth=3;c.beginPath();
  for(const s of [-1,1]){
   const hx=s*20-sw*6*s;
@@ -750,12 +788,15 @@ function drawTall(c,S,m,dark){
   for(let i=-1;i<=1;i++){c.moveTo(hx,-52);c.lineTo(hx+s*3+i*3,-40)}
  }
  c.stroke();
+ /* Kopf gebückt nach vorn unten: der Hals knickt, damit er nicht in den Stock darüber ragt */
+ c.save();c.translate(14,60);
  c.fillStyle=sk;c.beginPath();c.ellipse(8,-208+b,12,15,0,0,7);c.fill();
  c.fillStyle='#050000';c.beginPath();c.ellipse(10,-196+b,7,11,0,0,7);c.fill();
  c.fillStyle=dark?'#050505':'#e4e2d0';c.beginPath();
  for(let i=0;i<5;i++){const y=-204+b+i*4;c.moveTo(4,y);c.lineTo(1,y+2);c.lineTo(4,y+3.5)}
  c.fill();
  c.fillStyle='#000';c.beginPath();c.ellipse(4,-212+b,2.6,4,0,0,7);c.ellipse(12,-212+b,2.6,4,0,0,7);c.fill();
+ c.restore();
 }
 function drawShadow(c,S,m,dark){
  const b=monBob(m),sw=m.mv?Math.sin(m.ph):Math.sin(T*.9)*.06;
@@ -1126,7 +1167,7 @@ document.querySelectorAll('#board [data-tab]').forEach(b=>b.addEventListener('cl
 let credT=0;
 function startCredits(){
  G.phase='credits';M.on=false;setScore(1);
- SAVE.coins+=20;saveGame();recordRun();$('credCoins').textContent='+20 Coins verdient · Kontostand: '+SAVE.coins;
+ const bonus=[20,30,50][G.diff]||20;SAVE.coins+=bonus;saveGame();recordRun();$('credCoins').textContent='+'+bonus+' Coins verdient · Kontostand: '+SAVE.coins;
  $('menu').style.display='none';hideOver();$('credBtn').style.display='none';
  const r=$('roll');r.style.animation='none';void r.offsetWidth;r.style.animation='';
  $('credits').style.display='flex';
@@ -1254,9 +1295,23 @@ function mvTo(tl,tx,spd,dt){
  if(d){m.mv=false;m.dw+=dt;if(m.dw>.7){m.dw=0;openDoor(d)}return false}
  m.x=nx;m.mv=true;m.ph+=dt*spd/12;return false;
 }
+function MD(){
+ const d=Object.assign({},DIFF[G.diff]),id=curSkin().id;
+ if(id==='schleicher')d.sight*=1.35;
+ if(id==='blut'){d.spd*=1.3;d.chase*=1.15;if(P.fl){d.spd*=.5;d.chase*=.6}}
+ if(id==='puppe')d.hear=1;
+ if(id==='hohl')d.chk+=.25;
+ if(id==='schlange'){d.spd*=1.25;d.chase*=1.1}
+ if(id==='schrank')d.chk+=.4;
+ if(id==='pale'){if(G.power){d.spd*=.4;d.chase*=.5}else{d.spd*=1.3;d.chase*=1.3}}
+ if(id==='child'&&!P.mv){d.spd*=1.4;d.chase*=1.4}
+ d.chk=Math.min(.95,d.chk);
+ return d;
+}
 function canSee(){
+ if(curSkin().id==='ghost'&&!P.hide&&!P.trans&&Math.abs(P.lv-M.lv)===1&&Math.abs(P.x-M.x)<300)return true;
  if(P.hide||P.trans||P.lv!==M.lv)return false;
- const D=DIFF[G.diff],dx=P.x-M.x,dist=Math.abs(dx);
+ const D=MD(),dx=P.x-M.x,dist=Math.abs(dx);
  const r=D.sight*(!G.power?(P.fl?1.25:.7):1);
  if(dist>r)return false;
  if(D.face&&dist>70&&Math.sign(dx)!==M.dir)return false;
@@ -1264,7 +1319,7 @@ function canSee(){
  return true;
 }
 function hears(){
- if(!DIFF[G.diff].hear||P.hide||!P.mv)return false;
+ if(!MD().hear||P.hide||!P.mv)return false;
  const dist=Math.abs(P.x-M.x);
  if(P.lv===M.lv)return dist<380&&!doorBetween(M.lv,M.x,P.x);
  return Math.abs(P.lv-M.lv)===1&&dist<220;
@@ -1278,11 +1333,17 @@ function pickTarget(){
  else h=pool[(Math.random()*pool.length)|0];
  m.tgt=h;m.visit=h;
 }
-function checkSpot(h){if(Math.random()<DIFF[G.diff].chk&&(PA.hide===h||(NET.other&&PB.hide===h)))caught()}
+function checkSpot(h){if(Math.random()<MD().chk&&(PA.hide===h||(NET.other&&PB.hide===h)))caught()}
 function updMonster(dt){
- const m=M,D=DIFF[G.diff];
+ const m=M,D=MD();
  if(!m.on)return;
  if(!m.cl)m.y=FL[m.lv];
+ const id=curSkin().id;
+ if(id==='haenger'&&m.lv===P.lv&&Math.abs(P.x-m.x)<300&&Math.random()<dt*.6)G.flk=.4;
+ if(id==='schatten'&&m.mode==='chase'&&P.lv===m.lv&&!P.hide&&!P.trans){
+  m.blinkT=(m.blinkT||7)-dt;
+  if(m.blinkT<=0){m.blinkT=8;m.x=clamp(P.x-P.dir*110,LVX[m.lv][0]+30,LVX[m.lv][1]-30);m.dir=Math.sign(P.x-m.x)||m.dir;SND.thump(.5)}
+ }
  m.mv=false;
  const roam=m.mode==='search'||m.mode==='patrol';
  if(roam||m.mode==='lose'){
@@ -1327,8 +1388,15 @@ function respawn(){
  else{spawnFar();M.mode='patrol';M.on=true}
 }
 /* ---------- Ton, Wetter, Hud ---------- */
+function eerie(){
+ if(!AC)return;const f=rnd(1100,1600);
+ tone(f,2.6,'sine',.035,f*.78,0);tone(f*1.5,2.4,'sine',.012,f*1.1,.2);
+}
 function ambient(dt){
  const m=M;
+ const chasing=m.on&&(m.mode==='chase'||m.mode==='react'||m.mode==='scare');
+ if(chasing){G.chT=(G.chT||0)-dt;if(G.chT<=0){G.chT=.75;tone(55,.6,'sawtooth',.09,40);tone(84,.35,'square',.04,60,.05);SND.thump(.25)}}
+ else if(G.phase!=='menu'&&G.phase!=='credits'&&G.phase!=='end'&&Math.random()<dt*.035)eerie();
  if(m.on&&m.mv){m.stepT-=dt;if(m.stepT<=0){m.stepT=.4;const d=m.lv===P.lv?Math.abs(m.x-P.x):Math.abs(m.x-P.x)+500,v=clamp(1-d/950,0,1)*(m.lv===P.lv?1:.5);if(v>.05)SND.step(v)}}
  if(m.on&&(m.mode!=='away')){
   const d=m.lv===P.lv?Math.abs(m.x-P.x):(Math.abs(m.lv-P.lv)===1?Math.abs(m.x-P.x)+450:9e9);
@@ -1345,7 +1413,8 @@ function updCam(dt){
  cam.x+=(tx-cam.x)*(1-Math.exp(-dt*5));cam.y+=((P.y-100)-cam.y)*(1-Math.exp(-dt*7));
 }
 function updHud(){
- $('stT').textContent='SPIELZEUG '+G.toys+'/5'+(G.carry?' (+'+G.carry+')':'');$('stK').textContent='SCHLÜSSEL '+G.keys+'/5';
+ $('stT').style.display=G.phase==='toys'?'':'none';$('stK').style.display=G.phase==='keys'?'':'none';
+ $('stT').textContent='KUSCHELTIERE '+G.toys+'/5'+(G.carry?' (+'+G.carry+')':'');$('stK').textContent='SCHLÜSSEL '+G.keys+'/5';
  $('battI').style.width=P.bat+'%';$('battI').style.background=P.bat<20?'#d8402e':'#e8d27a';
  let t='';if(G.phase==='hide')t=(G.sub==='count'?'ER ZÄHLT ':'ER SUCHT ')+Math.max(0,Math.ceil(G.timer));
  $('timer').textContent=t;
